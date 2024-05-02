@@ -143,7 +143,7 @@ ziel = [12,14,16,18,32,34,36,38,52,54,56,58,72,74,76,78,92,94,96,98]
  zahlenreihenfolge=new Array(101)
  zahlenreihenfolge=setzahlen()
  zeile='<center>'
- zeile+="<h3>Erste Ziffer ungerade <br> zweite Ziffer gerade!</h3><p>"
+ zeile+="<h3>First digit odd <br> second digit even!</h3><p>"
  zeile+="<form name=myform method=post><table cellpadding=0 cellspacing=2 ><tr>"
 
 
@@ -178,7 +178,7 @@ ziel = [12,14,16,18,32,34,36,38,52,54,56,58,72,74,76,78,92,94,96,98]
     zeile+="<tr>"
    }
   zeile+="</table>"
-  zeile+='<br><input type=button value="Bearbeitung best�tigen!" onclick=getresult()>'
+  zeile+='<br><input type=button value="Confirm processing" onclick=getresult()>'
   zeile+='<input type=hidden name=a_richtig><input type=hidden name=a_falsch><input type=hidden name=zeit></form>'
   
   Jetzt = new Date(); 
@@ -230,7 +230,7 @@ function go ()
         richtig=0
         falsch =0
         richtiganzahl=0
-        document.getElementById('testen').innerHTML="<center><font size=5 >--- Achtung, Durchgang Nr. "+trial+" --- </font></center>"
+        document.getElementById('testen').innerHTML="<center><font size=5 >--- Attention, round nr. "+trial+" --- </font></center>"
         stopzeit (1.5)
       }  
         
@@ -264,14 +264,14 @@ function go ()
 
     
      zeile=""
-     zeile+='<blockquote> <font size="4">Ergebnisse im Konzentrationstest <b>UG</b> <br>	Erste Ziffer ungerade, zweite Ziffer gerade</font> '    
-     zeile+='<br>insgesamt '+maxtrial+' Testdurchg�nge  <hr align=left>Datum: '+mydatum()+'<p> ' 
-     zeile+='<table border="1" id="table1" cellspacing="0"><tr><td><b>Bearbeitungszeit in Sekunden (B)</b>&nbsp; </td><td><b>'+myzeit+'</b></td></tr>'
-     zeile+='<tr><td>Anzahl richtiger Zeichen&nbsp; (AR)</td><td>'+myrichtig+'</td></tr>'
-     zeile+='<tr><td>Anzahl Auslassungen (AA)&nbsp; </td><td>'+auslassungen+'</td></tr>'
-     zeile+='<tr><td>Anzahl falsch angeklickter Zeichen (AF)&nbsp; </td><td>'+myfalsch+'</td></tr>'	
-     zeile+='<tr><td><b>Konzentrationsleistung (KL)<br>	Anzahl korrekter Zeichen pro Minute</b>&nbsp; </td><td><b>'+k_pro_minute+'</b></td></tr>'
-     zeile+='<tr><td>KL = (AR-AA-AF)*60/B</td><td>&nbsp;</td></tr></table><p><hr align=left><p><textarea class=myfeld cols=50, rows=4 >'+document.mydaten.daten.value+'</textarea></blockquote>'    
+     zeile+='<blockquote> <font size="4">Results concentration test <b>UG</b> <br> First digit odd, second digit even</font> '    
+     zeile+='<br>'+maxtrial+' test runs in total  <hr align=left>Date: '+mydatum()+'<p> ' 
+     zeile+='<table border="1" id="table1" cellspacing="0"><tr><td><b>Processing time in seconds (T)</b>&nbsp; </td><td><b>'+myzeit+'</b></td></tr>'
+     zeile+='<tr><td>Number of correct characters (NC)</td><td>'+myrichtig+'</td></tr>'
+     zeile+='<tr><td>Number of omissions (NO)&nbsp; </td><td>'+auslassungen+'</td></tr>'
+     zeile+='<tr><td>Number of incorrectly clicked characters (NI)&nbsp; </td><td>'+myfalsch+'</td></tr>'	
+     zeile+='<tr><td><b>Concentration performance (CP) <br>	Number of correct characters per minute</b>&nbsp; </td><td><b>'+k_pro_minute+'</b></td></tr>'
+     zeile+='<tr><td>CP = (NC-NO-NI)*60/T</td><td>&nbsp;</td></tr></table><p><hr align=left><p><textarea class=myfeld cols=50, rows=4 >'+document.mydaten.daten.value+'</textarea></blockquote>'    
      document.getElementById('testen').innerHTML=zeile  
     
      }

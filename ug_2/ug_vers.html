@@ -118,7 +118,7 @@ ziel = [12,14,16,18,32,34,36,38,52,54,56,58,72,74,76,78,92,94,96,98]
  zahlenreihenfolge=new Array(101)
  zahlenreihenfolge=setzahlen()
  zeile='<center>'
- zeile+="<h3>Erste Ziffer ungerade <br> zweite Ziffer gerade!</h3><p>"
+ zeile+="<h3>First digit odd <br> second digit even!</h3><p>"
  zeile+="<form name=myform method=post><table><tr>"
 
 
@@ -152,7 +152,7 @@ ziel = [12,14,16,18,32,34,36,38,52,54,56,58,72,74,76,78,92,94,96,98]
     zeile+="<tr>"
    }
   zeile+="</table>"
-  zeile+='<br><input type=button name=bestaetigen value="Bearbeitung best�tigen!" onclick=getresult()>'
+  zeile+='<br><input type=button name=bestaetigen value="Confirm processing!" onclick=getresult()>'
   zeile+='<input type=hidden name=p_richtig><input type=hidden name=a_falsch><input type=hidden name=zeit></form>'
   
   Jetzt = new Date(); 
@@ -206,7 +206,7 @@ function go ()
         richtig=0
         falsch =0
         richtiganzahl=0
-        document.getElementById('testen').innerHTML="<center><font size=5 >--- Achtung, Probeduchgang --- </font></center>"
+        document.getElementById('testen').innerHTML="<center><font size=5 >--- Attention, test example --- </font></center>"
         stopzeit (1.5)
       }  
         
@@ -227,8 +227,8 @@ function go ()
         {
            //alert("Sie haben alles richtig gemacht\n\n Jetzt beginnt der eigentlich Test")
            message=""
-           message+="<center><p>Sie haben alles richtig gemacht"
-           message+="<form><input type=button value='direkt zum eigentlichen Test' onclick='location.href=\"ug.html\"'></form></center>"
+           message+="<center><p>You made everything right"
+           message+="<form><input type=button value='dDirectly to the actual test' onclick='location.href=\"ug.html\"'></form></center>"
            document.getElementById('show').innerHTML = message
            document.mydaten.anweisung.disabled=true
            document.myform.bestaetigen.disabled=true
@@ -238,7 +238,7 @@ function go ()
         else
         {
           message=""
-           message+="<center><p>Sie haben was vergessen und/oder etwas falsch angeklickt. <br> �berpr�fen Sie Ihre Angaben! <p> Fordern Sie danach noch ein Probebeispiel an!</center>"
+           message+="<center><p>You have forgotten something and/or clicked on something incorrectly. <br> Check the numbers! <p> Then request another test example!</center>"
             
            document.getElementById('show').innerHTML = message
            trial=0
@@ -272,10 +272,10 @@ function go ()
   <center>
   
    
-   <font size="5">Probebeispiel mit insgesamt 16 Zahlen</font><p>
+   <font size="5">Test example with a total of 16 numbers</font><p>
   
    
-   <input type=button name=anweisung value="Probebeispiel anfordern" onclick="go()"></p>
+   <input type=button name=anweisung value="Request test example" onclick="go()"></p>
 		</center>
    </form>
   
