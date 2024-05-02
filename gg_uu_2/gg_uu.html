@@ -1,7 +1,7 @@
 <!doctype html public "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Dr. Bernhard Jacobs">
    <meta name="GENERATOR" content="Mozilla/4.6 [de] (Win95; I) [Netscape]">
    <link rel="stylesheet" type="text/css" href="formate.css">   
@@ -49,7 +49,7 @@ var trial=0
 
 
 
-//--maxtrial entspricht der Anzahl der Testdurchgänge und kann verändert werden
+//--maxtrial entspricht der Anzahl der Testdurchgï¿½nge und kann verï¿½ndert werden
 //--maxtrial=1 ergibt etwa lediglich einen Testdurchgang.
 
 var maxtrial=2 
@@ -90,7 +90,7 @@ function randomizeZahl (maxzahl)
   return zufallszahl
  }  
 
-//-------Ordnet Zahlen von 1 bis n in einer zufälligen Reihenfolge an---------
+//-------Ordnet Zahlen von 1 bis n in einer zufï¿½lligen Reihenfolge an---------
 function zufallsanordnung (n)
   {
   var liste1Array = new Array()
@@ -186,7 +186,7 @@ distraktor = [12,14,16,18,21,23,25,27,29,32,34,36,38,41,43,45,47,49,52,54,56,58,
     zeile+="<tr>"
    }
   zeile+="</table>"
-  zeile+='<br><input type=button value="Bearbeitung bestätigen!" onclick=getresult() style="width:300px">'
+  zeile+='<br><input type=button value="Bearbeitung bestï¿½tigen!" onclick=getresult() style="width:300px">'
   zeile+='<input type=hidden name=a_richtig><input type=hidden name=a_falsch><input type=hidden name=zeit></form>'
   
   Jetzt = new Date(); 
@@ -269,13 +269,13 @@ function go ()
       
       document.mydaten.daten.value = mydatum()+ "\t"+document.mydaten.daten.value+"\t"+myzeit+"\t"+k_pro_minute+"\n"
       
-      // für online Erhebungen könnte man nachfolgenden Befehl verwenden
+      // fï¿½r online Erhebungen kï¿½nnte man nachfolgenden Befehl verwenden
       //document.mydaten.submit()
 
     
      zeile=""
      zeile+='<blockquote> <font size="4">Ergebnisse im Konzentrationstest <b>GU</b> <br>Klicke alle Zahlen an, deren <br>Ziffern nur gerade oder nur ungerade sind</font> '    
-     zeile+='<br>insgesamt '+maxtrial+' Testdurchgänge  <hr align=left>Datum: '+mydatum()+'<p> ' 
+     zeile+='<br>insgesamt '+maxtrial+' Testdurchgï¿½nge  <hr align=left>Datum: '+mydatum()+'<p> ' 
      zeile+='<table border="1" id="table1" cellspacing="0"><tr><td><b>Bearbeitungszeit in Sekunden (B)</b>&nbsp; </td><td><b>'+myzeit+'</b></td></tr>'
      zeile+='<tr><td>Anzahl richtiger Zeichen&nbsp; (AR)</td><td>'+myrichtig+'</td></tr>'
      zeile+='<tr><td>Anzahl Auslassungen (AA)&nbsp; </td><td>'+auslassungen+'</td></tr>'

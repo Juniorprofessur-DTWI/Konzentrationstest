@@ -2,7 +2,7 @@
 <html>
 <head>
    <meta http-equiv="Content-Language" content="de">
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Dr. Bernhard Jacobs">
    <meta name="GENERATOR" content="Mozilla/4.6 [de] (Win95; I) [Netscape]">
    <title>Konzentrationstest Relation</title>
@@ -66,7 +66,7 @@ function randomizeZahl (maxzahl)
   return zufallszahl
  }  
 
-//-------Ordnet Zahlen von 1 bis n in einer zufälligen Reihenfolge an---------
+//-------Ordnet Zahlen von 1 bis n in einer zufï¿½lligen Reihenfolge an---------
 function zufallsanordnung (n)
   {
   var liste1Array = new Array()
@@ -160,7 +160,7 @@ function settask()
     zeile+="<tr>"
    }
   zeile+="</table>"
-  zeile+='<br><input type=button class=mybutton name=bestaetigen value="Bearbeitung bestätigen!" onclick=getresult()>'
+  zeile+='<br><input type=button class=mybutton name=bestaetigen value="Bearbeitung bestï¿½tigen!" onclick=getresult()>'
   zeile+='<input type=hidden name=p_richtig><input type=hidden name=a_falsch><input type=hidden name=zeit></form>'
   
   Jetzt = new Date(); 
@@ -246,7 +246,7 @@ function go ()
         else
         {
           message=""
-           message+="<center><p>Sie haben was vergessen und/oder etwas falsch angeklickt. <br> Überprüfen Sie Ihre Angaben! <p> Fordern Sie danach noch ein Probebeispiel an!</center>"
+           message+="<center><p>Sie haben was vergessen und/oder etwas falsch angeklickt. <br> ï¿½berprï¿½fen Sie Ihre Angaben! <p> Fordern Sie danach noch ein Probebeispiel an!</center>"
             
            document.getElementById('show').innerHTML = message
            trial=0
