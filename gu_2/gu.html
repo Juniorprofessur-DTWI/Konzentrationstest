@@ -181,8 +181,7 @@ function settask()
   zeile+='<input type=hidden name=a_richtig><input type=hidden name=a_falsch><input type=hidden name=zeit></form>'
   
   Jetzt = new Date(); 
-  Start = Jetzt.getTime();  
- 
+  Start = Jetzt.getTime();
   document.getElementById('testen').innerHTML=zeile
   window.defaultStatus="konzentrationstest"
   
@@ -205,6 +204,8 @@ function getresult ()
     { 
         zeitende=new Date(); 
         zeitdauer=(zeitende.getTime()-Start)/1000; 
+        console.log("Zeitdauer: " + zeitdauer)
+        console.log("Zeitdauer myzeit: " + myzeit)
         document.myform.a_richtig.value=richtig; 
         document.myform.a_falsch.value=falsch; 
         document.myform.zeit.value=Math.round(zeitdauer); 
@@ -231,6 +232,7 @@ function go ()
         richtiganzahl=0
         document.getElementById('testen').innerHTML="<center><font size=5 >--- Attention, round nr. "+trial+" --- </font></center>"
         stopzeit (1.5)
+        console.log("myzeit if: " + myzeit)
       }  
         
   
@@ -238,18 +240,21 @@ function go ()
      {
       
       
-      
-      myzeit=myzeit/maxtrial
+      console.log("myzeit else1: " + myzeit)
+      // initial var/maxtrial --> Durchschnitt
+      // myzeit=myzeit/maxtrial
       myzeit=myzeit.toFixed(1)
-      myrichtig=myrichtig/maxtrial
+      // myrichtig=myrichtig/maxtrial
       myrichtig=myrichtig.toFixed(1)
-      myfalsch=myfalsch/maxtrial
+      // myfalsch=myfalsch/maxtrial
       myfalsch=myfalsch.toFixed(1)
       auslassungen= 25-myrichtig
       auslassungen=auslassungen.toFixed(1)
       k_pro_minute=( myrichtig - (25-myrichtig)- myfalsch ) *60/myzeit
       k_pro_minute=k_pro_minute.toFixed(1)
       
+      console.log("myzeit else2: " + myzeit)
+
       document.mydaten.zeit.value = myzeit
       document.mydaten.richtig.value=myrichtig
       document.mydaten.falsch.value= myfalsch
