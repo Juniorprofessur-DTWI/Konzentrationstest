@@ -57,7 +57,8 @@ var trial=0
 
 var maxtrial=2 
 var intervalID;
-
+// const fs = require('fs');
+var data = ""
 
 function mydatum ()
  {
@@ -193,7 +194,7 @@ function settask()
   document.getElementById('testen').innerHTML=zeile
 
   counterMinutes = 2
-  timeCounter = new Date().setSeconds(Jetzt.getSeconds() + counterMinutes)
+  timeCounter = new Date().setMinutes(Jetzt.getMinutes() + counterMinutes)
 
   intervalID = setInterval(function () {
     timeDiff = (timeCounter - new Date().getTime())
@@ -206,6 +207,7 @@ function settask()
       document.getElementById("btnConfirm").click();
     }
     else{
+      clearInterval(intervalID);
       document.getElementById('timePressure').innerHTML=timeMin + ":" + timeSec + "." + timeMilliSec
     }
   }, 50);
@@ -246,11 +248,8 @@ function getresult ()
      } 
         
 function go ()
-  {
-  
-         
+  {         
      if (trial < maxtrial)
-     
       {
         trial=trial+1
         richtig=0
@@ -260,12 +259,8 @@ function go ()
         stopzeit (1.5)
         console.log("myzeit if: " + myzeit)
       }  
-        
-  
      else
      {
-      
-      
       console.log("myzeit else1: " + myzeit)
       // initial var/maxtrial --> Durchschnitt
       // myzeit=myzeit/maxtrial
@@ -279,7 +274,6 @@ function go ()
       k_pro_minute=( myrichtig - (25-myrichtig)- myfalsch ) *60/myzeit
       k_pro_minute=k_pro_minute.toFixed(1)
       
-      console.log("myzeit else2: " + myzeit)
 
       document.mydaten.zeit.value = myzeit
       document.mydaten.richtig.value=myrichtig
@@ -303,7 +297,19 @@ function go ()
      zeile+='<tr><td><b>Concentration performance (CP)<br>	Number of correct characters per minute</b>&nbsp; </td><td><b>'+k_pro_minute+'</b></td></tr>'
      zeile+='<tr><td>CP = (NC-NO-NI)*60/T</td><td>&nbsp;</td></tr></table><p><hr align=left><p><textarea class=myfeld cols=50, rows=4 >'+document.mydaten.daten.value+'</textarea></blockquote>' 
      
-     Qualtrics.SurveyEngine.setEmbeddedData("myzeit", myzeit)
+     data = "testruns: " + maxtrial + 
+     " | Time: " + myzeit + 
+     " | Number of correct characters (NC): " + myrichtig + 
+     " | Number of omissions (NO): " + auslassungen + 
+     " | Number of incorrectly clicked characters (NI): " + myfalsch + 
+     " | Number of correct characters per minute: " + k_pro_minute + 
+     " | Concentration performance (CP) = (NC-NO-NI)*60/T: " + document.mydaten.daten.value;
+     
+    //  fs.writeFile('Results.txt', data,(err) => {
+    //   // In case of a error throw err.
+    //   if (err) throw err;
+    // })
+
      
      document.getElementById('testen').innerHTML=zeile  
     
