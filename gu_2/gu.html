@@ -207,7 +207,6 @@ function settask()
       document.getElementById("btnConfirm").click();
     }
     else{
-      clearInterval(intervalID);
       document.getElementById('timePressure').innerHTML=timeMin + ":" + timeSec + "." + timeMilliSec
     }
   }, 50);
@@ -230,6 +229,8 @@ function auswerten(zahl,hilfname)
         
 function getresult () 
     { 
+        clearInterval(intervalID);
+
         zeitende=new Date(); 
         zeitdauer=(zeitende.getTime()-Start)/1000; 
         console.log("Zeitdauer: " + zeitdauer)
