@@ -295,13 +295,10 @@
         auslassungen=auslassungen.toFixed(1)
         k_pro_minute=( myrichtig - (25-myrichtig)- myfalsch ) *60/myzeit
         k_pro_minute=k_pro_minute.toFixed(1)
-        
   
         document.mydaten.zeit.value = myzeit
         document.mydaten.richtig.value=myrichtig
-        document.mydaten.falsch.value= myfalsch
-        
-        
+        document.mydaten.falsch.value= myfalsch       
         
         document.mydaten.daten.value = mydatum()+ "\t"+document.mydaten.daten.value+"\t"+myzeit+"\t"+k_pro_minute+"\n"
         
@@ -329,13 +326,6 @@
           concentrationPerformance: k_pro_minute
         }
 
-        dataText = "testruns: " + data.testruns + 
-              " | Time: " + data.timeSpent + 
-              " | Number of correct characters (NC): " + data.charsCorrect + 
-              " | Number of omissions (NO): " + data.charsOmissions + 
-              " | Number of incorrectly clicked characters (NI): " + data.charsIncorrect + 
-              " | Concentration performance (CP) = (NC-NO-NI)*60/T: " + data.concentrationPerformance
-
         window.dbResolver.then(({ db, collection, addDoc, setDoc, doc }) => {
           const docRef = addDoc(
             collection(db, "Results"), 
@@ -343,7 +333,6 @@
           )
         })
 
-   
         document.getElementById('testen').innerHTML=zeile  
       
        }
