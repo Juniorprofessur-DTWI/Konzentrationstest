@@ -95,7 +95,17 @@
     var maxtrial=2 
     var data = {}
     var dataTemp = {}
-    
+    var dataIframe={
+      responseId: "NoQualtrics",
+    }
+
+    window.addEventListener('message', function (e) {
+      dataIframe = JSON.parse(e.data);
+      
+      console.log("data from iframe");
+      console.log(dataIframe);
+    });
+
     function mydatum ()
     {
       mydate=new Date()
@@ -263,7 +273,6 @@
                 
     dataTemp["trial_"+trial] = {
       trial: trial,
-      testName: "UG normal",
       date: mydatum(),
       timeSpent: zeitdauer,
       charsCorrect: richtig,
@@ -339,6 +348,7 @@
         zeile+='<br> <span> Please <b>click the "->" button on the bottom right </b> to proceed with the survey!</span>'
         
         data = {
+          userID: dataIframe.responseId,
           trial: 'Total',
           testName: "UG normal",
           date: mydatum(),

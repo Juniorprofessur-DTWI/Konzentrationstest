@@ -18,18 +18,20 @@
     Send to iframe
 </button>
 </br>
-    <iframe id="frame" height="800" width="90%" src="./gu_2/gu_vers.html" onload="onIFrameLoad()"></iframe>
+    <iframe class="frame" height="800" width="90%" src="./gu_2/gu_vers.html" onload="onIFrameLoad()"></iframe>
         
-    <script>
-        const frameEle = document.getElementById('frame');
-        const message = JSON.stringify({
-            message: 'Hello from window',
-            date: Date.now(),
-        });
-        
-        function onIFrameLoad(){
-            frameEle.contentWindow.postMessage(message, '*');
-        }        
-    </script>
+<script>
+  var frameEle = document.getElementsByClassName('frame')[0];
+  var message = JSON.stringify({
+    responseId:"${e://Field/ResponseID}"
+  });
+    
+  function onIFrameLoad(){
+    console.log(message);
+    console.log("${e://Field/ResponseID}");
+
+    frameEle.contentWindow.postMessage(message, '*');
+  }       
+</script>
     </body>
 </html>
