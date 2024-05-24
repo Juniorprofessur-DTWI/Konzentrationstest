@@ -101,7 +101,8 @@
   
   var maxtrial=2 
   var intervalID;
-  var data = ""
+  var data = {}
+  var dataTemp = {}
   
   function mydatum ()
    {
@@ -214,11 +215,13 @@
     zeile+="<div id=timePressureContainer>Remaining Time: <span id=timePressure></span></div>"
     zeile+="<form name=myform method=post><table><tr>"
 
+    anzahlRichtig=0
+    anzahlFalsch=0
 
-   k=0
-   for (j=0;j<10;j++)
+    k=0
+    for (j=0;j<10;j++)
     {
-    for (i=0;i<10;i++)
+      for (i=0;i<10;i++)
       { k=k+1
         welchezahl= zahlenreihenfolge[k]
         hilfzufall = Math.ceil(Math.random()*10)-1 
@@ -226,6 +229,8 @@
         
         if (welchezahl==1)
         {
+          anzahlRichtig+=1
+
           hilfzufall = Math.ceil(Math.random()*zielmenge)-1 
           zufallszahl=ziel[hilfzufall]
           richtiganzahl=richtiganzahl+1
@@ -235,19 +240,21 @@
         }
         else
         {
+          anzahlFalsch+=1
           hilfzufall = Math.ceil(Math.random()*distraktormenge)-1 
           zufallszahl=distraktor[hilfzufall]
           zeile+="<td align=center> <input type=button name="+hilfname+" style='font-size:14pt' onclick=auswerten(0,'"+hilfname+"') value="+zufallszahl+"> </td>"
           }
-            
-        
-       }
+      }
       zeile+="<tr>"
-     }
+    }
     zeile+="</table>"
     zeile+='<br><input id="btnConfirm" type=button value="Confirm!" onclick=getresult()>'
     zeile+='<input type=hidden name=a_richtig><input type=hidden name=a_falsch><input type=hidden name=zeit></form>'
     
+
+    console.log(anzahlRichtig)
+    console.log(anzahlFalsch)
     Jetzt = new Date(); 
     Start = Jetzt.getTime();
     document.getElementById('testen').innerHTML=zeile
@@ -277,25 +284,44 @@
   
 
   function getresult () 
-      { 
-          clearInterval(intervalID);
+  { 
+    clearInterval(intervalID);
 
-          zeitende=new Date(); 
-          zeitdauer=(zeitende.getTime()-Start)/1000; 
-          console.log("Zeitdauer: " + zeitdauer)
-          console.log("Zeitdauer myzeit: " + myzeit)
-          document.myform.a_richtig.value=richtig; 
-          document.myform.a_falsch.value=falsch; 
-          document.myform.zeit.value=Math.round(zeitdauer); 
-          document.mydaten.daten.value+=document.myform.a_richtig.value+"\t"+document.myform.a_falsch.value+"\t"+document.myform.zeit.value+"\t"
-          
-          myzeit+=zeitdauer
-          myfalsch+=falsch
-          myrichtig+=richtig; 
-                  
-          go()
-          
-       } 
+    zeitende=new Date(); 
+    zeitdauer=(zeitende.getTime()-Start)/1000; 
+
+    document.myform.a_richtig.value=richtig; 
+    document.myform.a_falsch.value=falsch; 
+    document.myform.zeit.value=Math.round(zeitdauer); 
+    document.mydaten.daten.value+=document.myform.a_richtig.value+"\t"+document.myform.a_falsch.value+"\t"+document.myform.zeit.value+"\t"
+    
+    myzeit+=zeitdauer
+    myfalsch+=falsch
+    myrichtig+=richtig; 
+    
+    dataTemp["trial_"+trial] = {
+      trial: trial,
+      testName: "GU time stress",
+      date: mydatum(),
+      timeSpent: zeitdauer,
+      charsCorrect: richtig,
+      charsOmissions: 25-richtig,
+      charsIncorrect: falsch,
+    }
+
+    console.log(dataTemp)
+    console.log("Zeitdauer: " + zeitdauer)
+    console.log("Zeitdauer myzeit: " + myzeit)
+    console.log("Trial: " + trial)
+    console.log("Richtig: " + richtig)
+    console.log("Falsch: " + falsch)
+    console.log("Gesamt Richtig: " + myrichtig)
+    console.log("Gesamt Falsch: " + myfalsch)
+    console.log("---------------------- end - func: getresult()")
+        
+    go()
+      
+  } 
          
   function go ()
     {         
@@ -314,15 +340,15 @@
         console.log("myzeit else1: " + myzeit)
         // initial var/maxtrial --> Durchschnitt
         // myzeit=myzeit/maxtrial
-        myzeit=myzeit.toFixed(1)
+        myzeit=myzeit
         // myrichtig=myrichtig/maxtrial
-        myrichtig=myrichtig.toFixed(1)
+        myrichtig=myrichtig
         // myfalsch=myfalsch/maxtrial
-        myfalsch=myfalsch.toFixed(1)
-        auslassungen= 25-myrichtig
-        auslassungen=auslassungen.toFixed(1)
+        myfalsch=myfalsch
+        auslassungen= (25*maxtrial)-myrichtig
+        auslassungen=auslassungen
         k_pro_minute=( myrichtig - (25-myrichtig)- myfalsch ) *60/myzeit
-        k_pro_minute=k_pro_minute.toFixed(1)
+        k_pro_minute=k_pro_minute
         
   
         document.mydaten.zeit.value = myzeit
@@ -338,7 +364,7 @@
   
         
         zeile=""
-        zeile+='<blockquote> <font size="4">Results concentration test <b>GU</b> <br>	First digit even, second digit odd</font> '    
+        zeile+='<blockquote> <font size="4">Results concentration test <b>GU with timer</b> <br>	First digit even, second digit odd</font> '    
         zeile+='<br>'+maxtrial+' test runs in total  <hr align=left>Date: '+mydatum()+'<p> ' 
         zeile+='<table border="1" id="table1" cellspacing="0"><tr><td><b>Processing time in seconds (T)</b>&nbsp; </td><td><b>'+myzeit+'</b></td></tr>'
         zeile+='<tr><td>Number of correct characters (NC)</td><td>'+myrichtig+'</td></tr>'
@@ -349,21 +375,19 @@
         zeile+='<br> <span> Please <b>click the "->" button on the bottom right </b> to proceed with the survey!</span>'
         
         data = {
+          trial: 'Total',
           testName: "GU time stress",
-          timeSpent: myzeit,
           date: mydatum(),
+          timeSpent: myzeit,
           charsCorrect: myrichtig,
           charsOmissions: auslassungen,
           charsIncorrect: myfalsch,
-          concentrationPerformance: k_pro_minute
+          concentrationPerformance: k_pro_minute,
+          data_trial_1: dataTemp["trial_1"],
+          data_trial_2: dataTemp["trial_2"],
         }
 
-        dataText = "testruns: " + data.testruns + 
-              " | Time: " + data.timeSpent + 
-              " | Number of correct characters (NC): " + data.charsCorrect + 
-              " | Number of omissions (NO): " + data.charsOmissions + 
-              " | Number of incorrectly clicked characters (NI): " + data.charsIncorrect + 
-              " | Concentration performance (CP) = (NC-NO-NI)*60/T: " + data.concentrationPerformance
+        console.log(data)
 
         window.dbResolver.then(({ db, collection, addDoc, setDoc, doc }) => {
           const docRef = addDoc(

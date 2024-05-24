@@ -100,7 +100,8 @@
   //--maxtrial=1 ergibt etwa lediglich einen Testdurchgang.
   
   var maxtrial=2 
-  var data = ""
+  var data = {}
+  var dataTemp = {}
   
   function mydatum ()
    {
@@ -168,10 +169,7 @@
      }
      return stichprobeArray
   }
-  
-   
-  
-  
+
   function stopzeit (sekunden)
   {   
     sekunden=sekunden*1000
@@ -257,23 +255,44 @@
   
 
   function getresult () 
-      { 
-          zeitende=new Date(); 
-          zeitdauer=(zeitende.getTime()-Start)/1000; 
-          console.log("Zeitdauer: " + zeitdauer)
-          console.log("Zeitdauer myzeit: " + myzeit)
-          document.myform.a_richtig.value=richtig; 
-          document.myform.a_falsch.value=falsch; 
-          document.myform.zeit.value=Math.round(zeitdauer); 
-          document.mydaten.daten.value+=document.myform.a_richtig.value+"\t"+document.myform.a_falsch.value+"\t"+document.myform.zeit.value+"\t"
-          
-          myzeit+=zeitdauer
-          myfalsch+=falsch
-          myrichtig+=richtig; 
-                  
-          go()
-          
-       } 
+  { 
+    console.log("---------------------- start - func: getresult()")
+
+    zeitende=new Date(); 
+    zeitdauer=(zeitende.getTime()-Start)/1000; 
+    
+    document.myform.a_richtig.value=richtig; 
+    document.myform.a_falsch.value=falsch; 
+    document.myform.zeit.value=Math.round(zeitdauer); 
+    document.mydaten.daten.value+=document.myform.a_richtig.value+"\t"+document.myform.a_falsch.value+"\t"+document.myform.zeit.value+"\t"
+    
+    myzeit+=zeitdauer
+    myfalsch+=falsch
+    myrichtig+=richtig; 
+    
+    dataTemp["trial_"+trial] = {
+      trial: trial,
+      testName: "GU normal",
+      date: mydatum(),
+      timeSpent: zeitdauer,
+      charsCorrect: richtig,
+      charsOmissions: 25-richtig,
+      charsIncorrect: falsch,
+    }
+
+    console.log(dataTemp)
+    console.log("Zeitdauer: " + zeitdauer)
+    console.log("Zeitdauer myzeit: " + myzeit)
+    console.log("Trial: " + trial)
+    console.log("Richtig: " + richtig)
+    console.log("Falsch: " + falsch)
+    console.log("Gesamt Richtig: " + myrichtig)
+    console.log("Gesamt Falsch: " + myfalsch)
+    console.log("---------------------- end - func: getresult()")
+            
+    go()
+      
+  } 
          
   function go ()
     {         
@@ -292,15 +311,15 @@
         console.log("myzeit else1: " + myzeit)
         // initial var/maxtrial --> Durchschnitt
         // myzeit=myzeit/maxtrial
-        myzeit=myzeit.toFixed(1)
+        myzeit=myzeit
         // myrichtig=myrichtig/maxtrial
-        myrichtig=myrichtig.toFixed(1)
+        myrichtig=myrichtig
         // myfalsch=myfalsch/maxtrial
-        myfalsch=myfalsch.toFixed(1)
-        auslassungen= 25-myrichtig
-        auslassungen=auslassungen.toFixed(1)
+        myfalsch=myfalsch
+        auslassungen= (25*maxtrial)-myrichtig
+        auslassungen=auslassungen
         k_pro_minute=( myrichtig - (25-myrichtig)- myfalsch ) *60/myzeit
-        k_pro_minute=k_pro_minute.toFixed(1)
+        k_pro_minute=k_pro_minute
   
         document.mydaten.zeit.value = myzeit
         document.mydaten.richtig.value=myrichtig
@@ -313,7 +332,7 @@
   
         
         zeile=""
-        zeile+='<blockquote> <font size="4">Results concentration test <b>GU firewith timer</b> <br>	First digit even, second digit odd</font> '    
+        zeile+='<blockquote> <font size="4">Results concentration test <b>GU</b> <br>	First digit even, second digit odd</font> '    
         zeile+='<br>'+maxtrial+' test runs in total  <hr align=left>Date: '+mydatum()+'<p> ' 
         zeile+='<table border="1" id="table1" cellspacing="0"><tr><td><b>Processing time in seconds (T)</b>&nbsp; </td><td><b>'+myzeit+'</b></td></tr>'
         zeile+='<tr><td>Number of correct characters (NC)</td><td>'+myrichtig+'</td></tr>'
@@ -322,16 +341,21 @@
         zeile+='<tr><td><b>Concentration performance (CP)<br>	Number of correct characters per minute</b>&nbsp; </td><td><b>'+k_pro_minute+'</b></td></tr>'
         zeile+='<tr><td>CP = (NC-NO-NI)*60/T</td><td>&nbsp;</td></tr></table><p><hr align=left><p><textarea class=myfeld cols=50, rows=4 >'+document.mydaten.daten.value+'</textarea></blockquote>' 
         zeile+='<br> <span> Please <b>click the "->" button on the bottom right </b> to proceed with the survey!</span>'
-        
+     
         data = {
+          trial: 'Total',
           testName: "GU no time stress",
-          timeSpent: myzeit,
           date: mydatum(),
+          timeSpent: myzeit,
           charsCorrect: myrichtig,
           charsOmissions: auslassungen,
           charsIncorrect: myfalsch,
-          concentrationPerformance: k_pro_minute
+          concentrationPerformance: k_pro_minute,
+          data_trial_1: dataTemp["trial_1"],
+          data_trial_2: dataTemp["trial_2"],
         }
+
+        console.log(data)
 
         window.dbResolver.then(({ db, collection, addDoc, setDoc, doc }) => {
           const docRef = addDoc(

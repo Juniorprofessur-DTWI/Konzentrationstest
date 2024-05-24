@@ -105,8 +105,9 @@
     
     var maxtrial=2 
     var intervalID
-    var data = ""
-    
+    var data = {}
+    var dataTemp = {}
+
     function mydatum ()
      {
       mydate=new Date()
@@ -173,10 +174,7 @@
        }
        return stichprobeArray
     }
-    
-     
-    
-    
+
     function stopzeit (sekunden)
       {   
         sekunden=sekunden*1000
@@ -288,6 +286,27 @@
       myfalsch+=falsch
       myrichtig+=richtig; 
       
+      dataTemp["trial_"+trial] = {
+        trial: trial,
+        testName: "UG time stress",
+        date: mydatum(),
+        timeSpent: zeitdauer,
+        charsCorrect: richtig,
+        charsOmissions: 25-richtig,
+        charsIncorrect: falsch,
+      }
+
+      console.log(dataTemp)
+      console.log("Zeitdauer: " + zeitdauer)
+      console.log("Zeitdauer myzeit: " + myzeit)
+      console.log("Trial: " + trial)
+      console.log("Richtig: " + richtig)
+      console.log("Falsch: " + falsch)
+      console.log("Gesamt Richtig: " + myrichtig)
+      console.log("Gesamt Falsch: " + myfalsch)
+      console.log("---------------------- end - func: getresult()")
+              
+
       go()
       
     } 
@@ -314,15 +333,15 @@
           
           // initial var/maxtrial --> Durchschnitt
           // myzeit=myzeit/maxtrial
-          myzeit=myzeit.toFixed(1)
+          myzeit=myzeit
           // myrichtig=myrichtig/maxtrial
-          myrichtig=myrichtig.toFixed(1)
+          myrichtig=myrichtig
           // myfalsch=myfalsch/maxtrial
-          myfalsch=myfalsch.toFixed(1)
-          auslassungen= 25-myrichtig
-          auslassungen=auslassungen.toFixed(1)
+          myfalsch=myfalsch
+          auslassungen= (25*maxtrial)-myrichtig
+          auslassungen=auslassungen
           k_pro_minute=( myrichtig - (25-myrichtig)- myfalsch ) *60/myzeit
-          k_pro_minute=k_pro_minute.toFixed(1)
+          k_pro_minute=k_pro_minute
           
           document.mydaten.zeit.value = myzeit
           document.mydaten.richtig.value=myrichtig
@@ -346,14 +365,19 @@
           zeile+='<br> <span> Please <b>click the "->" button on the bottom right </b> to proceed with the survey!</span>'
           
           data = {
+            trial: 'Total',
             testName: "UG time stress",
-            timeSpent: myzeit,
             date: mydatum(),
+            timeSpent: myzeit,
             charsCorrect: myrichtig,
             charsOmissions: auslassungen,
             charsIncorrect: myfalsch,
-            concentrationPerformance: k_pro_minute
+            concentrationPerformance: k_pro_minute,
+            data_trial_1: dataTemp["trial_1"],
+            data_trial_2: dataTemp["trial_2"],
           }
+
+          console.log(data)
 
           window.dbResolver.then(({ db, collection, addDoc, setDoc, doc }) => {
             const docRef = addDoc(
