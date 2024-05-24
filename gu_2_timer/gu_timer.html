@@ -5,7 +5,7 @@
    <meta name="Author" content="Dr. Bernhard Jacobs">
    <meta name="GENERATOR" content="Mozilla/4.6 [de] (Win95; I) [Netscape]">
    <link rel="stylesheet" type="text/css" href="formate.css">   
-   <title>Konzentrationstest GU erste Ziffer gerade, zweite Ziffer ungerade</title>
+   <title>GU with Timer Test</title>
 
 <style type="text/css">
 
@@ -100,6 +100,7 @@
   //--maxtrial=1 ergibt etwa lediglich einen Testdurchgang.
   
   var maxtrial=2 
+  var intervalID;
   var data = ""
   
   function mydatum ()
@@ -188,8 +189,14 @@
         hilfmir ='document.myform.'+hilfname+'.disabled=true';eval(hilfmir); 
         //hilfmir ='document.myform.'+hilfname+'.style="background-color:#E0E0E0"';eval(hilfmir); 
 
-        if (zahl==1)  { richtig=richtig+1;} 
-        else          { falsch = falsch+1 } 
+        if (zahl==1)  { 
+          richtig=richtig+1;
+          console.log("richtig");
+        } 
+        else { 
+          falsch = falsch+1 
+          console.log("falsch");
+        } 
     } 
           
   
@@ -204,6 +211,7 @@
     zahlenreihenfolge=setzahlen()
     zeile='<center>'
     zeile+="<h3>First digit even, <br> second digit odd!</h3><p>"
+    zeile+="<div id=timePressureContainer>Remaining Time: <span id=timePressure></span></div>"
     zeile+="<form name=myform method=post><table><tr>"
 
 
@@ -229,7 +237,7 @@
         {
           hilfzufall = Math.ceil(Math.random()*distraktormenge)-1 
           zufallszahl=distraktor[hilfzufall]
-          zeile+="<td align=center> <input type=button name="+hilfname+" style='font-size:14pt' onclick=auswerten(1,'"+hilfname+"') value="+zufallszahl+"> </td>"
+          zeile+="<td align=center> <input type=button name="+hilfname+" style='font-size:14pt' onclick=auswerten(0,'"+hilfname+"') value="+zufallszahl+"> </td>"
           }
             
         
@@ -243,6 +251,24 @@
     Jetzt = new Date(); 
     Start = Jetzt.getTime();
     document.getElementById('testen').innerHTML=zeile
+  
+    counterMinutes = 2
+    timeCounter = new Date().setMinutes(Jetzt.getMinutes() + counterMinutes)
+  
+    intervalID = setInterval(function () {
+      timeDiff = (timeCounter - new Date().getTime())
+      timeMilliSec = Math.floor((timeDiff/100))%10;
+      timeSec = Math.floor((timeDiff/1000))%60;
+      timeMin = Math.floor((timeDiff/60000));
+  
+      if (timeMin == 0 && timeSec == 0) {
+        clearInterval(intervalID);
+        document.getElementById("btnConfirm").click();
+      }
+      else{
+        document.getElementById('timePressure').innerHTML=timeMin + ":" + timeSec + "." + timeMilliSec
+      }
+    }, 50);
     
     window.defaultStatus="konzentrationstest"
      
@@ -252,6 +278,8 @@
 
   function getresult () 
       { 
+          clearInterval(intervalID);
+
           zeitende=new Date(); 
           zeitdauer=(zeitende.getTime()-Start)/1000; 
           console.log("Zeitdauer: " + zeitdauer)
@@ -295,10 +323,13 @@
         auslassungen=auslassungen.toFixed(1)
         k_pro_minute=( myrichtig - (25-myrichtig)- myfalsch ) *60/myzeit
         k_pro_minute=k_pro_minute.toFixed(1)
+        
   
         document.mydaten.zeit.value = myzeit
         document.mydaten.richtig.value=myrichtig
-        document.mydaten.falsch.value= myfalsch       
+        document.mydaten.falsch.value= myfalsch
+        
+        
         
         document.mydaten.daten.value = mydatum()+ "\t"+document.mydaten.daten.value+"\t"+myzeit+"\t"+k_pro_minute+"\n"
         
@@ -318,7 +349,7 @@
         zeile+='<br> <span> Please <b>click the "->" button on the bottom right </b> to proceed with the survey!</span>'
         
         data = {
-          testName: "GU no time stress",
+          testName: "GU time stress",
           timeSpent: myzeit,
           date: mydatum(),
           charsCorrect: myrichtig,
@@ -327,6 +358,13 @@
           concentrationPerformance: k_pro_minute
         }
 
+        dataText = "testruns: " + data.testruns + 
+              " | Time: " + data.timeSpent + 
+              " | Number of correct characters (NC): " + data.charsCorrect + 
+              " | Number of omissions (NO): " + data.charsOmissions + 
+              " | Number of incorrectly clicked characters (NI): " + data.charsIncorrect + 
+              " | Concentration performance (CP) = (NC-NO-NI)*60/T: " + data.concentrationPerformance
+
         window.dbResolver.then(({ db, collection, addDoc, setDoc, doc }) => {
           const docRef = addDoc(
             collection(db, "Results"), 
@@ -334,6 +372,7 @@
           )
         })
 
+   
         document.getElementById('testen').innerHTML=zeile  
       
        }

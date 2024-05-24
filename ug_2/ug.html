@@ -5,7 +5,7 @@
    <meta name="Author" content="Dr. Bernhard Jacobs">
    <meta name="GENERATOR" content="Mozilla/4.6 [de] (Win95; I) [Netscape]">
    <link rel="stylesheet" type="text/css" href="formate.css">   
-   <title>Konzentrationstest UG erste Ziffer ungerade, zweite Ziffer gerade</title>
+   <title>UG Test</title>
 
 <style type="text/css">
 
@@ -30,15 +30,7 @@
  {
   text-align:right;
  }
-
- #timePressureContainer
- {
-    margin: 20px 0 20px 0;
-    font-size: large;
-    font-weight: bolder;
- }
 </style>
-
 
 </head>
   <body text="#000000" bgcolor="#E0E0E0" link="#0000FF" vlink="#800080" alink="#FF0000" onload="go()">
@@ -48,10 +40,8 @@
      <input type=hidden name=zeit value="">
      <input type=hidden name=richtig value="">
      <input type=hidden name=falsch value="">
-
-
-
   </form>
+
 
   <script type="module">
   
@@ -88,7 +78,6 @@
   </script>
 
   <script language="JavaScript">
- 
     var richtig=0
     var falsch =0
     var richtiganzahl=0
@@ -102,42 +91,41 @@
     
     //--maxtrial entspricht der Anzahl der Testdurchg�nge und kann ver�ndert werden
     //--maxtrial=1 ergibt etwa lediglich einen Testdurchgang.
-    
+
     var maxtrial=2 
-    var intervalID
     var data = ""
     
     function mydatum ()
-     {
+    {
       mydate=new Date()
       datum=mydate.toLocaleString();
       return (datum);
-     }
+    }
     
-     
+    
     function setzahlen()
     {
       ausgangswerte=new Array(101)
       myarray=new Array(101)
       reihenfolge=new Array(101)
       for (i=1;i<=100;i++)
-       if (i<=25)
+      if (i<=25)
       {ausgangswerte[i]=1}
-       else
+      else
       {ausgangswerte[i]=2}
     
-       myarray=zufallsziehung(100,100)
-       for (i=1;i<=100;i++)
-       {reihenfolge[i]=ausgangswerte [myarray[i]]}
-       return reihenfolge
+      myarray=zufallsziehung(100,100)
+      for (i=1;i<=100;i++)
+      {reihenfolge[i]=ausgangswerte [myarray[i]]}
+      return reihenfolge
     
     }
     //------- zieht eine Zufallszahl im Bereich 1 bis maxzahl---------
     function randomizeZahl (maxzahl) 
-     {
+    {
       var zufallszahl= Math.ceil(Math.random()*maxzahl) 
       return zufallszahl
-     }  
+    }  
     
     //-------Ordnet Zahlen von 1 bis n in einer zuf�lligen Reihenfolge an---------
     function zufallsanordnung (n)
@@ -146,8 +134,8 @@
       var liste2Array = new Array()
       for (i=1;i<=n;i++) 
         {
-         liste1Array [i] = i 
-         liste2Array [i] = i 
+        liste1Array [i] = i 
+        liste2Array [i] = i 
         }
       maxzahl=n
       for (maxzahl=n;maxzahl>=1;maxzahl--) 
@@ -156,7 +144,7 @@
           liste1Array[maxzahl]=liste2Array[zufallszahl]
           liste2Array[zufallszahl]=liste2Array[maxzahl]
           liste2Array[maxzahl]=liste2Array[zufallszahl]
-         }
+        }
       
       return liste1Array
       }
@@ -164,17 +152,17 @@
     //-----zieht aus dem Universum N nach Zufall n Zufallszahlen -------
     function zufallsziehung (n,N)
     {
-       var stichprobeArray=new Array(n)
-       var universumArray=new Array(N)
-       universumArray=zufallsanordnung(N)
-       for (i=1;i<=n;i++) 
+      var stichprobeArray=new Array(n)
+      var universumArray=new Array(N)
+      universumArray=zufallsanordnung(N)
+      for (i=1;i<=n;i++) 
         {stichprobeArray[i]=universumArray[i]
         
-       }
-       return stichprobeArray
+      }
+      return stichprobeArray
     }
     
-     
+    
     
     
     function stopzeit (sekunden)
@@ -185,24 +173,26 @@
     
     function zeitkonsequenz ()
       {
-       settask ()
+      settask ()
       }
     
     function settask()
     {
-      ziel = [12,14,16,18,32,34,36,38,52,54,56,58,72,74,76,78,92,94,96,98]
-      zielmenge=20
-      distraktor = [21,23,25,27,29,41,43,45,47,49,61,63,65,67,69,81,83,85,87,89,13,15,17,19,31,35,37,39,51,53,57,59,71,73,75,79,91,93,95,97,22,24,26,28,42,44,46,48,62,64,66,68,82,84,86,88,24,46,68,82,64] 
-      distraktormenge=61
-      zahlenreihenfolge=new Array(101)
-      zahlenreihenfolge=setzahlen()
-      zeile='<center>'
-      zeile+="<h3>First digit odd <br> second digit even!</h3><p>"
-      zeile+="<div id=timePressureContainer>Remaining Time: <span id=timePressure></span></div>"
-      zeile+="<form name=myform method=post><table cellpadding=0 cellspacing=2 ><tr>"
     
-      k=0
-      for (j=0;j<10;j++)
+    ziel = [12,14,16,18,32,34,36,38,52,54,56,58,72,74,76,78,92,94,96,98]
+    zielmenge=20
+    distraktor = [21,23,25,27,29,41,43,45,47,49,61,63,65,67,69,81,83,85,87,89,13,15,17,19,31,35,37,39,51,53,57,59,71,73,75,79,91,93,95,97,22,24,26,28,42,44,46,48,62,64,66,68,82,84,86,88,24,46,68,82,64] 
+    distraktormenge=61
+    zahlenreihenfolge=new Array(101)
+    zahlenreihenfolge=setzahlen()
+    zeile='<center>'
+    zeile+="<h3>First digit odd <br> second digit even!</h3><p>"
+    zeile+="<form name=myform method=post><table cellpadding=0 cellspacing=2 ><tr>"
+    
+    
+    
+    k=0
+    for (j=0;j<10;j++)
       {
       for (i=0;i<10;i++)
         { k=k+1
@@ -225,143 +215,131 @@
             zufallszahl=distraktor[hilfzufall]
             zeile+="<td align=cemter> <input type=button name="+hilfname+" style='font-size:14pt' onclick=auswerten(0,'"+hilfname+"') value="+zufallszahl+"> </td>"
             }
+              
+          
         }
         zeile+="<tr>"
       }
       zeile+="</table>"
-      zeile+='<br><input id="btnConfirm" type=button value="Confirm!" onclick=getresult()>'
+      zeile+='<br><input type=button value="Confirm!" onclick=getresult()>'
       zeile+='<input type=hidden name=a_richtig><input type=hidden name=a_falsch><input type=hidden name=zeit></form>'
-        
+      
       Jetzt = new Date(); 
       Start = Jetzt.getTime();  
+    
       document.getElementById('testen').innerHTML=zeile
-
-      counterMinutes = 2
-      timeCounter = new Date().setMinutes(Jetzt.getMinutes() + counterMinutes)
+      window.defaultStatus="konzentrationstest"    
+  }
+          
+  
+  function auswerten(zahl,hilfname) 
+      { 
+          hilfmir ='document.myform.'+hilfname+'.disabled=true';eval(hilfmir); 
+          //hilfmir ='document.myform.'+hilfname+'.style="background-color:#E0E0E0"';eval(hilfmir); 
+  
+          if (zahl==1)  { 
+          richtig=richtig+1;
+          console.log("richtig");
+        } 
+        else { 
+          falsch = falsch+1 
+          console.log("falsch");
+        } 
+      } 
+          
+  function getresult () 
+      { 
+          zeitende=new Date(); 
+          zeitdauer=(zeitende.getTime()-Start)/1000; 
+          document.myform.a_richtig.value=richtig; 
+          document.myform.a_falsch.value=falsch; 
+          document.myform.zeit.value=Math.round(zeitdauer); 
+          document.mydaten.daten.value+=document.myform.a_richtig.value+"\t"+document.myform.a_falsch.value+"\t"+document.myform.zeit.value+"\t"
+          
+          myzeit+=zeitdauer
+          myfalsch+=falsch
+          myrichtig+=richtig; 
+          
+          go()
+          
+       } 
+          
+  function go ()
+    {
     
-      intervalID = setInterval(function () {
-        timeDiff = (timeCounter - new Date().getTime())
-        timeMilliSec = Math.floor((timeDiff/100))%10;
-        timeSec = Math.floor((timeDiff/1000))%60;
-        timeMin = Math.floor((timeDiff/60000));
+           
+       if (trial < maxtrial)
+       
+        {
+          trial=trial+1
+          richtig=0
+          falsch =0
+          richtiganzahl=0
+          document.getElementById('testen').innerHTML="<center><font size=5 >--- Attention, round nr. "+trial+" --- </font></center>"
+          stopzeit (1.5)
+        }  
+          
     
-        if (timeMin == 0 && timeSec == 0) {
-          clearInterval(intervalID);
-          document.getElementById("btnConfirm").click();
-        }
-        else{
-          document.getElementById('timePressure').innerHTML=timeMin + ":" + timeSec + "." + timeMilliSec
-        }
-      }, 50);
-      
-      window.defaultStatus="konzentrationstest"      
-    }
-            
-    
-    function auswerten(zahl,hilfname) 
-    { 
-      hilfmir ='document.myform.'+hilfname+'.disabled=true';eval(hilfmir); 
-      //hilfmir ='document.myform.'+hilfname+'.style="background-color:#E0E0E0"';eval(hilfmir); 
-
-      if (zahl==1)
-        {richtig=richtig+1;  } 
-          else 
-        {falsch = falsch+1} 
-    } 
-            
-    function getresult () 
-    { 
-      clearInterval(intervalID);
-
-      zeitende=new Date(); 
-      zeitdauer=(zeitende.getTime()-Start)/1000; 
-      document.myform.a_richtig.value=richtig; 
-      document.myform.a_falsch.value=falsch; 
-      document.myform.zeit.value=Math.round(zeitdauer); 
-      document.mydaten.daten.value+=document.myform.a_richtig.value+"\t"+document.myform.a_falsch.value+"\t"+document.myform.zeit.value+"\t"
-      
-      myzeit+=zeitdauer
-      myfalsch+=falsch
-      myrichtig+=richtig; 
-      
-      go()
-      
-    } 
-            
-    function go ()
-      {
-      
-             
-         if (trial < maxtrial)
-         
-          {
-            trial=trial+1
-            richtig=0
-            falsch =0
-            richtiganzahl=0
-            document.getElementById('testen').innerHTML="<center><font size=5 >--- Attention, round nr. "+trial+" --- </font></center>"
-            stopzeit (1.5)
-          }  
-            
-      
-         else
-         {
-          
-          
-          // initial var/maxtrial --> Durchschnitt
-          // myzeit=myzeit/maxtrial
-          myzeit=myzeit.toFixed(1)
-          // myrichtig=myrichtig/maxtrial
-          myrichtig=myrichtig.toFixed(1)
-          // myfalsch=myfalsch/maxtrial
-          myfalsch=myfalsch.toFixed(1)
-          auslassungen= 25-myrichtig
-          auslassungen=auslassungen.toFixed(1)
-          k_pro_minute=( myrichtig - (25-myrichtig)- myfalsch ) *60/myzeit
-          k_pro_minute=k_pro_minute.toFixed(1)
-          
-          document.mydaten.zeit.value = myzeit
-          document.mydaten.richtig.value=myrichtig
-          document.mydaten.falsch.value= myfalsch
-          
-          document.mydaten.daten.value = mydatum()+ "\t"+document.mydaten.daten.value+"\t"+myzeit+"\t"+k_pro_minute+"\n"
-          
-          // f�r online Erhebungen k�nnte man nachfolgenden Befehl verwenden
-          //document.mydaten.submit()
-    
+       else
+       {
         
-          zeile=""
-          zeile+='<blockquote> <font size="4">Results concentration test <b>UG</b> <br> First digit odd, second digit even</font> '    
-          zeile+='<br>'+maxtrial+' test runs in total  <hr align=left>Date: '+mydatum()+'<p> ' 
-          zeile+='<table border="1" id="table1" cellspacing="0"><tr><td><b>Processing time in seconds (T)</b>&nbsp; </td><td><b>'+myzeit+'</b></td></tr>'
-          zeile+='<tr><td>Number of correct characters (NC)</td><td>'+myrichtig+'</td></tr>'
-          zeile+='<tr><td>Number of omissions (NO)&nbsp; </td><td>'+auslassungen+'</td></tr>'
-          zeile+='<tr><td>Number of incorrectly clicked characters (NI)&nbsp; </td><td>'+myfalsch+'</td></tr>'	
-          zeile+='<tr><td><b>Concentration performance (CP) <br>	Number of correct characters per minute</b>&nbsp; </td><td><b>'+k_pro_minute+'</b></td></tr>'
-          zeile+='<tr><td>CP = (NC-NO-NI)*60/T</td><td>&nbsp;</td></tr></table><p><hr align=left><p><textarea class=myfeld cols=50, rows=4 >'+document.mydaten.daten.value+'</textarea></blockquote>'    
-          zeile+='<br> <span> Please <b>click the "->" button on the bottom right </b> to proceed with the survey!</span>'
-          
-          data = {
-            testName: "UG time stress",
-            timeSpent: myzeit,
-            date: mydatum(),
-            charsCorrect: myrichtig,
-            charsOmissions: auslassungen,
-            charsIncorrect: myfalsch,
-            concentrationPerformance: k_pro_minute
-          }
-
-          window.dbResolver.then(({ db, collection, addDoc, setDoc, doc }) => {
-            const docRef = addDoc(
-              collection(db, "Results"), 
-              data 
-            )
-          })
-
-          document.getElementById('testen').innerHTML=zeile  
         
-         }
-      }
-    </script>
+        // initial var/maxtrial --> Durchschnitt
+        // myzeit=myzeit/maxtrial
+        myzeit=myzeit.toFixed(1)
+        // myrichtig=myrichtig/maxtrial
+        myrichtig=myrichtig.toFixed(1)
+        // myfalsch=myfalsch/maxtrial
+        myfalsch=myfalsch.toFixed(1)
+        auslassungen= 25-myrichtig
+        auslassungen=auslassungen.toFixed(1)
+        k_pro_minute=( myrichtig - (25-myrichtig)- myfalsch ) *60/myzeit
+        k_pro_minute=k_pro_minute.toFixed(1)
+        
+        document.mydaten.zeit.value = myzeit
+        document.mydaten.richtig.value=myrichtig
+        document.mydaten.falsch.value= myfalsch
+        
+        document.mydaten.daten.value = mydatum()+ "\t"+document.mydaten.daten.value+"\t"+myzeit+"\t"+k_pro_minute+"\n"
+        
+        // f�r online Erhebungen k�nnte man nachfolgenden Befehl verwenden
+        //document.mydaten.submit()
+
+
+        zeile=""
+        zeile+='<blockquote> <font size="4">Results concentration test <b>UG</b> <br> First digit odd, second digit even</font> '    
+        zeile+='<br>'+maxtrial+' test runs in total  <hr align=left>Date: '+mydatum()+'<p> ' 
+        zeile+='<table border="1" id="table1" cellspacing="0"><tr><td><b>Processing time in seconds (T)</b>&nbsp; </td><td><b>'+myzeit+'</b></td></tr>'
+        zeile+='<tr><td>Number of correct characters (NC)</td><td>'+myrichtig+'</td></tr>'
+        zeile+='<tr><td>Number of omissions (NO)&nbsp; </td><td>'+auslassungen+'</td></tr>'
+        zeile+='<tr><td>Number of incorrectly clicked characters (NI)&nbsp; </td><td>'+myfalsch+'</td></tr>'	
+        zeile+='<tr><td><b>Concentration performance (CP) <br>	Number of correct characters per minute</b>&nbsp; </td><td><b>'+k_pro_minute+'</b></td></tr>'
+        zeile+='<tr><td>CP = (NC-NO-NI)*60/T</td><td>&nbsp;</td></tr></table><p><hr align=left><p><textarea class=myfeld cols=50, rows=4 >'+document.mydaten.daten.value+'</textarea></blockquote>'    
+        zeile+='<br> <span> Please <b>click the "->" button on the bottom right </b> to proceed with the survey!</span>'
+        
+        data = {
+          testName: "UG no time stress",
+          timeSpent: myzeit,
+          date: mydatum(),
+          charsCorrect: myrichtig,
+          charsOmissions: auslassungen,
+          charsIncorrect: myfalsch,
+          concentrationPerformance: k_pro_minute
+        }
+
+        window.dbResolver.then(({ db, collection, addDoc, setDoc, doc }) => {
+          const docRef = addDoc(
+            collection(db, "Results"), 
+            data 
+          )
+        })
+       
+        document.getElementById('testen').innerHTML=zeile  
+      
+       }
+    }       
+          
+  </script>
+
 </body>
 </html>
