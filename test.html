@@ -1,0 +1,35 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="Author" content="Dr. Bernhard Jacobs">
+        <meta name="GENERATOR" content="Mozilla/4.6 [de] (Win95; I) [Netscape]">
+        <link rel="stylesheet" type="text/css" href="formate.css">   
+        <title>UG Test</title>
+    </head>
+
+    <body text="#000000" bgcolor="#E0E0E0" link="#0000FF" vlink="#800080" alink="#FF0000">
+        <span id="testen"></span>
+        <button
+    id="sendToIframe"
+    type="button"
+    style="border: none; background-color: #3182ce; color: #fff; padding: 0.25rem 0.5rem"
+>
+    Send to iframe
+</button>
+</br>
+    <iframe id="frame" height="800" width="90%" src="./gu_2/gu_vers.html" onload="onIFrameLoad()"></iframe>
+        
+    <script>
+        const frameEle = document.getElementById('frame');
+        const message = JSON.stringify({
+            message: 'Hello from window',
+            date: Date.now(),
+        });
+        
+        function onIFrameLoad(){
+            frameEle.contentWindow.postMessage(message, '*');
+        }        
+    </script>
+    </body>
+</html>

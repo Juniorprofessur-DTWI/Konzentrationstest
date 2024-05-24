@@ -102,7 +102,16 @@
   var maxtrial=2 
   var data = {}
   var dataTemp = {}
-  
+  var dataIframe={}
+
+    window.addEventListener('message', function (e) {
+      dataIframe = JSON.parse(e.data);
+      
+      console.log("data from iframe");
+      console.log(dataIframe);
+    });
+
+
   function mydatum ()
    {
     mydate=new Date()
@@ -185,7 +194,7 @@
     { 
         hilfmir ='document.myform.'+hilfname+'.disabled=true';eval(hilfmir); 
         //hilfmir ='document.myform.'+hilfname+'.style="background-color:#E0E0E0"';eval(hilfmir); 
-
+       
         if (zahl==1)  { 
           richtig=richtig+1;
           console.log("richtig");
