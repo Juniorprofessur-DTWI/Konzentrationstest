@@ -299,10 +299,10 @@
       dataTemp["trial_"+trial] = {
         trial: trial,
         date: mydatum(),
-        timeSpent: zeitdauer,
-        charsCorrect: richtig,
-        charsOmissions: 25-richtig,
-        charsIncorrect: falsch,
+        time_spent: zeitdauer,
+        chars_correct: richtig,
+        chars_omissions: 25-richtig,
+        chars_incorrect: falsch,
       }
 
       console.log(dataTemp)
@@ -348,8 +348,7 @@
           // myfalsch=myfalsch/maxtrial
           myfalsch=myfalsch
           auslassungen= (25*maxtrial)-myrichtig
-          auslassungen=auslassungen
-          k_pro_minute=( myrichtig - (25-myrichtig)- myfalsch ) *60/myzeit
+          k_pro_minute=( myrichtig/2 - auslassungen/2 - myfalsch/2 ) *60/myzeit
           k_pro_minute=k_pro_minute
           
           document.mydaten.zeit.value = myzeit
@@ -378,11 +377,11 @@
             trial: 'Total',
             testName: "UG time stress",
             date: mydatum(),
-            timeSpent: myzeit,
-            charsCorrect: myrichtig,
-            charsOmissions: auslassungen,
-            charsIncorrect: myfalsch,
-            concentrationPerformance: k_pro_minute,
+            time_spent: myzeit,
+            chars_correct: myrichtig,
+            chars_omissions: auslassungen,
+            chars_incorrect: myfalsch,
+            concentration_performance: k_pro_minute,
             data_trial_1: dataTemp["trial_1"],
             data_trial_2: dataTemp["trial_2"],
           }
