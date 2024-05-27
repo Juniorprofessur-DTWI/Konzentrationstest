@@ -277,8 +277,8 @@
       timeMilliSec = Math.floor((timeDiff/100))%10;
       timeSec = Math.floor((timeDiff/1000))%60;
       timeMin = Math.floor((timeDiff/60000));
-  
-      if (timeMin == 0 && timeSec == 0) {
+
+      if (timeMin <= 0 && timeSec <= 0) {
         clearInterval(intervalID);
         document.getElementById("btnConfirm").click();
       }
