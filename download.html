@@ -1,0 +1,168 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="Author" content="Dr. Bernhard Jacobs">
+      <meta name="GENERATOR" content="Mozilla/4.6 [de] (Win95; I) [Netscape]">
+      <link rel="stylesheet" type="text/css" href="formate.css">   
+      <title>Download Results</title>
+
+      <style type="text/css">
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+      </style>
+
+  </head>
+
+  <body text="#000000" bgcolor="#E0E0E0" link="#0000FF" vlink="#800080" alink="#FF0000">
+    <span id="testen"></span>
+    <button id="btnDataLoad" type="button" style="border: none; background-color: #3182ce; color: #fff; padding: 0.25rem 0.5rem">
+      Load Data
+    </button>
+    <button id="btnDownloadTable" type="button" style="border: none; background-color: #166c05; color: #fff; padding: 0.25rem 0.5rem">
+      Download Table
+    </button>
+    <br>
+    <br>
+
+    <table id="table" cellspacing="0">
+      <col>
+      <colgroup span="8"></colgroup>
+      <colgroup span="4"></colgroup>
+      <colgroup span="4"></colgroup>
+      <tr>
+        <th colspan="8" scope="colgroup">Total</th>
+        <th colspan="4" scope="colgroup">Trial 1</th>
+        <th colspan="4" scope="colgroup">Trial 2</th>
+      </tr>
+      <tr>
+        <!-- Total -->
+        <th>User ID</th>
+        <th>Test</th>
+        <th>Date</th>
+        <th>Time Spent</th>
+        <th>Chars Correct</th>
+        <th>Chars Omissions</th>
+        <th>Chars Incorrect</th>
+        <th>Concentration Performance</th>
+        <!-- Trial 1 -->
+        <th>Time Spent</th>
+        <th>Chars Correct</th>
+        <th>Chars Omissions</th>
+        <th>Chars Incorrect</th>
+        <!-- Trial 2 -->
+        <th>Time Spent</th>
+        <th>Chars Correct</th>
+        <th>Chars Omissions</th>
+        <th>Chars Incorrect</th>
+      </tr>
+    </table>
+
+    <script type="module">
+      window.appResolver = import('https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js').then(
+        ({initializeApp, firebase}) => {
+          // Your web app's Firebase configuration
+          const firebaseConfig = {
+            apiKey: "AIzaSyCr0NdpSDN56xKAOkEtsl2ZDLCQMr9RDNU",
+            authDomain: "konzentrationstest-54721.firebaseapp.com",
+            projectId: "konzentrationstest-54721",
+            storageBucket: "konzentrationstest-54721.appspot.com",
+            messagingSenderId: "344610323360",
+            appId: "1:344610323360:web:ef2b7f8073a1759b2f02c5"
+          };
+
+          // Initialize Firebase
+          var app = initializeApp(firebaseConfig);
+          
+          return { app, firebase }
+        }) 
+
+      window.appResolver.then(({app, firebase}) => {
+        window.dbResolver = import('https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js').then(
+          ({getFirestore, query, collection,getDocs, addDoc, setDoc, doc}) => {
+            // Initialize Cloud Firestore and get a reference to the service
+            
+            var db = getFirestore(app);
+            
+            return { db, collection, query, getDocs,addDoc, setDoc, doc }
+        })
+      })  
+    </script>
+    
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+    <script>      
+      var table = document.getElementById('table');
+      
+      document.getElementById('btnDownloadTable').addEventListener('click', function (type, fn, dl){
+        var wb = XLSX.utils.table_to_book(table, { sheet: "sheet1" });
+        var type = "xlsx"
+        fn='Results_'
+        fn+= new Date().toLocaleString();
+        fn+='.xlsx'
+        console.log(fn);
+
+        return dl ?
+          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+          XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
+      })
+
+      document.getElementById('btnDataLoad').addEventListener('click', function () {
+        console.log("resultsRef");
+        var tableDataItems = document.getElementsByClassName('dataItem');
+
+        while(tableDataItems[0]) {
+          tableDataItems[0].parentNode.removeChild(tableDataItems[0]);
+        }
+
+        window.dbResolver.then(({ db, collection, query, addDoc, setDoc,getDocs, doc }) => {
+          const resultsRef = collection(db, "Results")
+          const q = query(resultsRef, "*")
+
+          loadData({getDocs, q});
+          
+          console.log(resultsRef);
+          console.log(q);
+        })
+
+        async function loadData({getDocs, q}){
+          console.log("async test");
+          const querySnapshot = await getDocs(q);
+          console.log(querySnapshot);
+
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            var data = doc.data();
+
+            var tr = document.createElement('tr');
+            tr.innerHTML = 
+              '<td>' + data.userID + '</td>' +
+              '<td>' + data.testName + '</td>' +
+              '<td>' + data.date + '</td>' +
+              '<td>' + data.time_spent + '</td>' +
+              '<td>' + data.chars_correct + '</td>' +
+              '<td>' + data.chars_omissions + '</td>' +
+              '<td>' + data.chars_incorrect + '</td>' +
+              '<td>' + data.concentration_performance + '</td>' +
+              '<td>' + data.data_trial_1.time_spent + '</td>' +
+              '<td>' + data.data_trial_1.chars_correct + '</td>' +
+              '<td>' + data.data_trial_1.chars_omissions + '</td>' +
+              '<td>' + data.data_trial_1.chars_incorrect + '</td>' +
+              '<td>' + data.data_trial_2.time_spent + '</td>' +
+              '<td>' + data.data_trial_2.chars_correct + '</td>' +
+              '<td>' + data.data_trial_2.chars_omissions + '</td>' +
+              '<td>' + data.data_trial_2.chars_incorrect + '</td>';
+            tr.classList.add('dataItem')
+            table.appendChild(tr);
+            
+          });
+         
+        }
+      })
+
+    </script>
+  </body>
+</html>
