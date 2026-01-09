@@ -81,12 +81,12 @@
 
       window.appResolver.then(({app, firebase}) => {
         window.dbResolver = import('https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js').then(
-          ({getFirestore, query, collection,getDocs, addDoc, setDoc, doc}) => {
+          ({getFirestore, query, collection,getDocs, addDoc, setDoc, doc, orderBy}) => {
             // Initialize Cloud Firestore and get a reference to the service
             
             var db = getFirestore(app);
             
-            return { db, collection, query, getDocs,addDoc, setDoc, doc }
+            return { db, collection, query, getDocs,addDoc, setDoc, doc, orderBy }
         })
       })  
     </script>
@@ -117,7 +117,7 @@
           tableDataItems[0].parentNode.removeChild(tableDataItems[0]);
         }
 
-        window.dbResolver.then(({ db, collection, query, addDoc, setDoc,getDocs, doc }) => {
+        window.dbResolver.then(({ db, collection, query, addDoc, setDoc,getDocs, doc, orderBy }) => {
           const resultsRef = collection(db, "Results")
           const q = query(resultsRef, "*", orderBy("date"))
 
