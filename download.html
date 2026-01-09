@@ -119,7 +119,7 @@
 
         window.dbResolver.then(({ db, collection, query, addDoc, setDoc,getDocs, doc }) => {
           const resultsRef = collection(db, "Results")
-          const q = query(resultsRef, "*")
+          const q = query(resultsRef, "*", orderBy("date"))
 
           loadData({getDocs, q});
           
